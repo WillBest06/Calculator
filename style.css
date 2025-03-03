@@ -1,0 +1,61 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.numberBTN {
+    background-color: white;
+    color: black;
+}
+
+.operatorBTN {
+    background-color: darkcyan;
+    color: aliceblue;
+}
+
+.acBTN {
+    background-color: plum;
+    color: white;
+}
+
+.equalsBTN {
+    background-color: darkblue;
+    color: white;
+}
+
+.calcBTN {
+    width: 100px;
+    height: 100px;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 50%;
+}
+
+.inputBox {
+    width: 400px;
+    height: 100px;
+    font-size: 50px;
+}
+
+.calcBody {
+    width: 422px;
+    height: 640px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: gray;
+
+    border-radius: 20px;
+    border-color: black;
+}
+
+.row {
+    display: flex;
+}
+
+.buttons {
+    padding: 10px;
+}
