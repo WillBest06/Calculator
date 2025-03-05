@@ -1,64 +1,53 @@
 const numBTNs = document.querySelectorAll('.numBTN');
 const acBTN = document.querySelector('.acBTN');
-const display = document.querySelector('.inputBox');
+const fullEquation = document.querySelector('#fullEquation');
+const currentOperation = document.querySelector('#currentOperation');
 const operatorBTNs = document.querySelectorAll('.operatorBTN');
 const equalsBTN = document.querySelector('.equalsBTN');
 const percentageBTN = document.querySelector('#percentageBTN');
 
 let operator;
-let arr;
+let operand1;
+let operand2;
 
-function addToDisplay(button) {
-    display.value += button.textContent;
+function addNumberToDisplay(button) {
+    currentOperation.value += button.textContent;
 }
 
-numBTNs.forEach(button => {
-    button.addEventListener('click', function (e) {
-        addToDisplay(e.target);    
-    })
-})
+function setOperator(button) {
+    fullEquation.value = '';
 
-operatorBTNs.forEach(button => {
-    button.addEventListener('click', function (e) {
-        if (operator === undefined) {
-            operator = button.textContent;
-            addToDisplay(e.target)
-        }
-    })
-})
-
-acBTN.addEventListener('click', function (e) {
-    resetCalc(display);
-})
-
-percentageBTN.addEventListener('click', function (e) {
-    
-})
-
-
-equalsBTN.addEventListener('click', function (e) {
-    arr = splitEquationIntoArr(display.value, operator);
-    display.value = operate(operator, arr);
-    operator = undefined;
-    arr = undefined;
-})
-
-function resetCalc (display) {
-    display.value = '';
-    operator = undefined;
-    arr = undefined;
+    if (operator === undefined && operand1 === undefined) {
+        operand1 = Number(currentOperation.value);
+        fullEquation.value += operand1;
+        operator = button.textContent;
+        fullEquation.value += operator;
+        currentOperation.value = '';
+    }
 }
 
-function operate(operator, arr) {
-    const operand1 = Number(arr[0]);
-    const operand2 = Number(arr[1]);
-    console.log(operand1, operand2);
-    
+function AC() {
+    fullEquation.value = '';
+    currentOperation.value = '';
+    operator = undefined;
+    operand1 = undefined;
+    operand2 = undefined;
+}
+
+function operate() {
+    if (operator === undefined) return currentOperation.value;
+
+    operand2 = Number(currentOperation.value);
+    fullEquation.value += (operand2 + '=');
+
     if (isNaN(operand1) || isNaN(operand2)) {
         operator = undefined;
-        arr = undefined;
-        return display.value;
+        operand1 = undefined;
+        operand2 = undefined;
+        return currentOperation.value;
     }
+
+    if (operator === undefined) return;
 
     switch (operator) {
         case '+':
@@ -72,26 +61,30 @@ function operate(operator, arr) {
     }
 }
 
-function splitEquationIntoArr (string, operator) {
-    let arr = string.split(operator)
-
-    arr.forEach(element => {
-        element = Number(element)
-    });
-
-    return arr;
+function numAsPercentage() {
+    fullEquation.value = `${currentEquation.value} as a perecentage = `;
+    Number(currentEquation.value) /= 100;
 }
 
-function hasOperator (string) {
-    const arrOfOps = ['+', '-', '*', '/'];
+numBTNs.forEach((button) => 
+    button.addEventListener('click', () => addNumberToDisplay(button))
+);
 
-    for (let char in string) {
-        if (char in arrOfOps) return true;
+operatorBTNs.forEach((button) => 
+    button.addEventListener('click', () => setOperator(button)) 
+);
+
+acBTN.addEventListener('click', () => AC());
+
+percentageBTN.addEventListener('click', () => {
+    if (operand1 >= 0 && operand2 === undefined) {
+        numAsPercentage(Number(currentOperation.value));
     }
+})
 
-    return false;
-}
-
-function numAsPercentage (num) {
-    return num / 100;
-}
+equalsBTN.addEventListener('click', () => {
+    currentOperation.value = operate(operator);
+    operator = undefined;
+    operand1 = undefined;
+    operand2 = undefined;
+})
