@@ -62,8 +62,8 @@ function operate() {
 }
 
 function numAsPercentage() {
-    fullEquation.value = `${currentEquation.value} as a perecentage = `;
-    Number(currentEquation.value) /= 100;
+    fullEquation.value = `${currentOperation.value} as a decimal = `;
+    currentOperation.value = Number(currentOperation.value) / 100;
 }
 
 numBTNs.forEach((button) => 
@@ -76,11 +76,7 @@ operatorBTNs.forEach((button) =>
 
 acBTN.addEventListener('click', () => AC());
 
-percentageBTN.addEventListener('click', () => {
-    if (operand1 >= 0 && operand2 === undefined) {
-        numAsPercentage(Number(currentOperation.value));
-    }
-})
+percentageBTN.addEventListener('click', () => numAsPercentage());
 
 equalsBTN.addEventListener('click', () => {
     currentOperation.value = operate(operator);

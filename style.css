@@ -9,7 +9,7 @@ body {
     color: black;
 }
 
-.operatorBTN {
+.operatorBTN, #percentageBTN, #bracketsBTN{
     background-color: darkcyan;
     color: aliceblue;
 }
