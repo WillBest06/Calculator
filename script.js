@@ -5,16 +5,24 @@ const currentOperation = document.querySelector('#currentOperation');
 const operatorBTNs = document.querySelectorAll('.operatorBTN');
 const equalsBTN = document.querySelector('.equalsBTN');
 const percentageBTN = document.querySelector('#percentageBTN');
+const backspaceBTN = document.querySelector('#backspaceBTN');
 
 let operator;
 let operand1;
 let operand2;
 
 function addNumberToDisplay(button) {
+    if (fullEquation.value != '' && fullEquation.value.includes('=')) {
+        fullEquation.value = '';
+        currentOperation.value = '';
+    }
+
     currentOperation.value += button.textContent;
 }
 
 function setOperator(button) {
+    if (currentOperation.value === '') return;
+
     fullEquation.value = '';
 
     if (operator === undefined && operand1 === undefined) {
@@ -66,6 +74,14 @@ function numAsPercentage() {
     currentOperation.value = Number(currentOperation.value) / 100;
 }
 
+function backspace() {
+    currentOperation.value = currentOperation.value.slice(0, currentOperation.value.length - 1); // excludes the last char in str
+
+    if (currentOperation.value === '') {
+        fullEquation.value = '';
+    }
+}
+
 numBTNs.forEach((button) => 
     button.addEventListener('click', () => addNumberToDisplay(button))
 );
@@ -84,3 +100,5 @@ equalsBTN.addEventListener('click', () => {
     operand1 = undefined;
     operand2 = undefined;
 })
+
+backspaceBTN.addEventListener('click', () => backspace());
